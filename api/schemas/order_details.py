@@ -5,12 +5,13 @@ from .sandwiches import Sandwich
 
 
 class OrderDetailBase(BaseModel):
-    amount: int
+    order_id: int
+    menu_item_id: int
+    quantity: int
 
 
 class OrderDetailCreate(OrderDetailBase):
-    order_id: int
-    sandwich_id: int
+    pass
 
 class OrderDetailUpdate(BaseModel):
     order_id: Optional[int] = None
