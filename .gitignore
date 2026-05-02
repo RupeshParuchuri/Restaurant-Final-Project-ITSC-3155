@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -160,3 +161,6 @@ cython_debug/
 .idea/
 
 .pytest_cache
+=======
+.DS_Store
+>>>>>>> 0b5ce5a (Added order API and status feature)
