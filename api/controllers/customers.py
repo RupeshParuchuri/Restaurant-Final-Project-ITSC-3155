@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from ..models import customers as model
+from ..models import orders as orders_model
+from ..models import reviews as reviews_model
 
 
 def create(db: Session, request):
@@ -44,3 +46,31 @@ def update(db: Session, item_id, request):
     db.commit()
 
     return item.first()
+
+def delete(db: Session, item_id):
+    item = db.query(model.Customer).filter(model.Customer.id == item_id)
+
+    if not item.first():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Id not found!"
+        )
+
+    db.query(orders_model.Order).filter(
+        orders_model.Order.customer_id == item_id
+    ).update(
+        {"customer_id": None},
+        synchronize_session=False
+    )
+
+    db.query(reviews_model.Review).filter(
+        reviews_model.Review.customer_id == item_id
+    ).update(
+        {"customer_id": None},
+        synchronize_session=False
+    )
+
+    item.delete(synchronize_session=False)
+    db.commit()
+
+    return {"message": "customer deleted"}

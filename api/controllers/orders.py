@@ -132,3 +132,25 @@ def update(db: Session, item_id, request):
     db.commit()
 
     return item.first()
+
+def delete(db: Session, item_id):
+    item = db.query(model.Order).filter(model.Order.id == item_id)
+
+    if item.first() == None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Order not found!"
+        )
+
+    db.query(payment_model.Payment).filter(
+        payment_model.Payment.order_id == item_id
+    ).delete(synchronize_session=False)
+
+    db.query(detail_model.OrderDetail).filter(
+        detail_model.OrderDetail.order_id == item_id
+    ).delete(synchronize_session=False)
+
+    item.delete(synchronize_session=False)
+    db.commit()
+
+    return {"message": "order deleted"}
