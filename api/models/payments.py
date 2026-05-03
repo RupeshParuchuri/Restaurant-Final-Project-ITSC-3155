@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from ..dependencies.database import Base
 
@@ -7,6 +7,7 @@ class Payment(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     order_id = Column(Integer, ForeignKey("orders.id"), nullable=False, unique=True)
+    amount = Column(Float, nullable=False)
     card_last_four = Column(String(4), nullable=False)
     transaction_status = Column(String(50), nullable=False)
     payment_type = Column(String(50), nullable=False)

@@ -11,6 +11,6 @@ class MenuItem(Base):
     calories = Column(Integer)
     food_category = Column(String(50))
 
-    recipes = relationship("Recipe", back_populates="menu_item")
     order_details = relationship("OrderDetail", back_populates="menu_item")
     reviews = relationship("Review", back_populates="menu_item")
+    recipes = relationship("Recipe", back_populates="menu_item")
