@@ -2,6 +2,7 @@ from pydantic import BaseModel
 
 class PaymentBase(BaseModel):
     order_id: int
+    amount: float
     card_last_four: str
     transaction_status: str
     payment_type: str
