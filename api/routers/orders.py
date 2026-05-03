@@ -10,7 +10,6 @@ router = APIRouter(
     prefix="/orders"
 )
 
-# You must put /revenue and /track before /{item_id} or FastAPI will crash
 @router.get("/revenue", response_model=RevenueResponse)
 def get_revenue(start_date: str = None, end_date: str = None, db: Session = Depends(get_db)):
     return controller.get_revenue(db, start_date=start_date, end_date=end_date)
@@ -24,8 +23,8 @@ def create(request: schema.OrderCreate, db: Session = Depends(get_db)):
     return controller.create(db=db, request=request)
 
 @router.get("/", response_model=list[schema.Order])
-def read_all(db: Session = Depends(get_db)):
-    return controller.read_all(db)
+def read_all(start_date: str = None, end_date: str = None, db: Session = Depends(get_db)):
+    return controller.read_all(db, start_date=start_date, end_date=end_date)
 
 @router.get("/{item_id}", response_model=schema.Order)
 def read_one(item_id: int, db: Session = Depends(get_db)):

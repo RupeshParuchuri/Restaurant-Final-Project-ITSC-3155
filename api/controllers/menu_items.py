@@ -60,3 +60,4 @@ def delete(db: Session, item_id):
     item.delete(synchronize_session=False)
     db.commit()
     return {"message": "deleted"}
+

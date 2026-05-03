@@ -100,8 +100,18 @@ def track_order(db: Session, tracking_number: str):
     return {"tracking_number": item.tracking_number, "order_status": item.order_status}
 
 
-def read_all(db: Session):
-    result = db.query(model.Order).all()
+def read_all(db: Session, start_date: str = None, end_date: str = None):
+    query = db.query(model.Order)
+
+    if start_date != None:
+        start = datetime.strptime(start_date, "%Y-%m-%d")
+        query = query.filter(model.Order.order_date >= start)
+
+    if end_date != None:
+        end = datetime.strptime(end_date, "%Y-%m-%d") + timedelta(days=1)
+        query = query.filter(model.Order.order_date < end)
+
+    result = query.all()
     return result
 
 
